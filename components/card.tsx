@@ -23,20 +23,20 @@ export default function CustomCard(props: CustomCardProps) {
 
     return (
         <Card className={className}>
-           
-                <CardHeader>
-                     {icon}
-                    <CardTitle>{title}</CardTitle>
-                    <CardDescription>{description}</CardDescription>
-                    <CardAction>{action}</CardAction>
-                </CardHeader>
-                <CardContent className="font-bold text-2xl">
-                    {content}
-                </CardContent>
-                <CardFooter>
-                    <p>{footer}</p>
-                </CardFooter>
-            
+
+            <CardHeader>
+                {icon}
+                <CardTitle>{title}</CardTitle>
+                <CardDescription>{description}</CardDescription>
+                <CardAction>{action}</CardAction>
+            </CardHeader>
+            <CardContent className="font-bold text-2xl">
+                {content}
+            </CardContent>
+            <CardFooter>
+                <p>{footer}</p>
+            </CardFooter>
+
         </Card>
     )
 }

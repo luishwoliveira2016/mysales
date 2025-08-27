@@ -1,6 +1,8 @@
 'use client'
 
 
+import CustomCard from "@/components/card"
+import { Button } from "@/components/ui/button"
 import {
   Table,
   TableBody,
@@ -11,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import NewSaleDialog from "./components/dialog"
 
 const invoices = [
   {
@@ -104,7 +107,15 @@ export default function Sales() {
   return (
     <div>
       <h1 className="font-bold font-sans">Vendas</h1>
-      <Table className="border rounded-4xl">
+      <div className="flex">
+        <CustomCard className="w-[40%] h-48"
+            content='R$ 5.000,00'
+            title='Vendas totais'
+          />
+          <NewSaleDialog/>
+      </div>
+          
+          <Table className=" rounded-4xl">
         <TableCaption>A list of your recent invoices.</TableCaption>
         <TableHeader>
           <TableRow>
@@ -133,7 +144,8 @@ export default function Sales() {
           </TableRow>
         </TableFooter>
       </Table>
-    </div>
 
+     
+    </div>
   )
 }
