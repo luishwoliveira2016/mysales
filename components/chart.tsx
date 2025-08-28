@@ -12,21 +12,21 @@ import {
 // export const description = "A multiple bar chart"
 
 const chartData = [
-  { month: "Janeiro", desktop: 186, mobile: 80 },
-  { month: "Fevereiro", desktop: 305, mobile: 200 },
-  { month: "Março", desktop: 237, mobile: 120 },
-  { month: "Abril", desktop: 73, mobile: 190 },
-  { month: "Maio", desktop: 209, mobile: 130 },
-  { month: "Junho", desktop: 214, mobile: 140 },
+  { month: "Janeiro", vendas: 186, saidas: 80 },
+  { month: "Fevereiro", vendas: 305, saidas: 200 },
+  { month: "Março", vendas: 237, saidas: 120 },
+  { month: "Abril", vendas: 73, saidas: 190 },
+  { month: "Maio", vendas: 209, saidas: 130 },
+  { month: "Junho", vendas: 214, saidas: 140 },
 ]
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  vendas: {
+    label: "Vendas",
     color: "#42A5F5",
   },
-  mobile: {
-    label: "Mobile",
+  saidas: {
+    label: "Saídas",
     color: "#FDE047",
   },
 } satisfies ChartConfig
@@ -48,8 +48,8 @@ export default function Chart() {
               cursor={false}
               content={<ChartTooltipContent indicator="dashed" />}
             />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-            <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
+            <Bar dataKey="vendas" fill="var(--color-vendas)" radius={4} />
+            <Bar dataKey="saidas" fill="var(--color-saidas)" radius={4} />
           </BarChart>
         </ChartContainer>
     </ResponsiveContainer>
