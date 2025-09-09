@@ -1,4 +1,5 @@
-import { useState } from "react"
+'use client'
+import { use, useState } from "react"
 import {
     Dialog,
     DialogClose,
@@ -22,54 +23,49 @@ import {
     SelectValue
 } from "@/components/ui/select"
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import ListSaleTable from './table'
 
+import { FaPlus } from 'react-icons/fa'
+import { log } from "console"
 
 
 export default function NewSaleDialog() {
-    const [selectedProduct, setSelectedProduct] = useState('');
+    const products = [
+        {
+            id: 1,
+            description: 'anel xs',
+            code: '174',
+            value: '174,90'
+        },
+        {
+            id: 2,
+            description: 'anel aaaaa  xs',
+            code: '199',
+            value: '199,90'
+        }
+    ];
 
-   const invoices =  [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },  {
-    invoice: "INV005",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },  {
-    invoice: "INV007",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  }]
+
+    const [selectedProduct, setSelectedProduct] = useState({});
+    //const [faturas, setFaturas] = useState(invoices)
+
+    const [data, setData] = useState([]);
+
+    const handleAddProduct = (product) => {
+        console.log('dataaaaa',data)
+        console.log('producttttt',product)
+        setData((prev) => [...prev, product])
+    }
 
     console.log('selectted producr', selectedProduct)
-    
+
     return (
         <Dialog>
             <form>
                 <DialogTrigger asChild>
                     <Button variant="default" className="ml-auto">Nova venda</Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
+                <DialogContent className="sm:max-w-[900px]">
                     <DialogHeader>
                         <DialogTitle>Nova venda</DialogTitle>
                         <DialogDescription>
@@ -94,77 +90,51 @@ export default function NewSaleDialog() {
                         <div className="grid gap-3">
                             <Label htmlFor="username-1">Adicionar produto</Label>
                             <Select onValueChange={(value) => {
-                                setSelectedProduct(value);
-                                }}>
+                                console.log(value)
+                                setSelectedProduct(products[value]);
+                            }}>
                                 <SelectTrigger className={"w-full"}>
                                     <SelectValue placeholder="Select a value" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectGroup>
-                                        <SelectItem value={"Anel grande"}>Anel Grande xls</SelectItem>
-                                        <SelectItem value={'Pingente kids'}>Pingente Kids Menina</SelectItem>
+                                        {products.map((product, index) => (
+                                            <SelectItem value={index} key={product.id}>{product.description}</SelectItem>
+                                        ))}
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
 
-                         {
-                            selectedProduct && 
-                            <div className="grid gap-3">
-                                <Label>ID</Label>
-                                <Input value={selectedProduct} disabled/>
+                            {
+                                selectedProduct &&
+                                <div className="grid gap-3">
+                                    <div className="flex gap-4">
+                                        <Label>Id</Label>
+                                        <Input value={selectedProduct.code} disabled className="w-16" />
 
 
-                                <div className="flex gap-4">
-                                    <Label>Descrição</Label>
-                                <Input value={selectedProduct} disabled/>
+                                        <Label>Descrição</Label>
+                                        <Input value={selectedProduct.description} className="w-72" disabled />
+
+                                        <Label>Quantidade</Label>
+                                        <Input type="number" defaultValue={1} className="w-12"></Input>
 
 
-                                <Label>Valor unitário</Label>
-                                <Input value={selectedProduct} disabled className="w-8"/>
+                                        <Label>Valor unitário</Label>
+                                        <Input value={selectedProduct.value} disabled className="w-24" />
+                                    </div>
+
+
+                                   
+                                    <Button onClick={()=>handleAddProduct(selectedProduct)} className="bg-emerald-400 w-96"> <FaPlus/>Adicionar produto</Button>
+                                    <ListSaleTable data={data} />
                                 </div>
-                                
-
-                                <Label>Quantidade</Label>
-                                <Input type="number" defaultValue={1}></Input>
-                                
-                                <Button>Adicionar a lista</Button>
-
-                               <Table className=" rounded-4xl border">
-                                <TableHeader>
-                                <TableRow>
-                                    <TableHead className="w-screen">Invoice</TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead>Method</TableHead>
-                                    <TableHead className="text-right">Amount</TableHead>
-                                </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                {invoices.map((invoice) => (
-                                    <TableRow key={invoice.invoice} onClick={() => {
-                                    console.log('click on :', invoice)
-                                    }}>
-                                    <TableCell className="font-medium">{invoice.invoice}</TableCell>
-                                    <TableCell>{invoice.paymentStatus}</TableCell>
-                                    <TableCell>{invoice.paymentMethod}</TableCell>
-                                    <TableCell className="text-right">{invoice.totalAmount}</TableCell>
-                                    </TableRow>
-                                ))}
-                                </TableBody>
-                                <TableFooter>
-                                <TableRow>
-                                    <TableCell colSpan={3}>Total</TableCell>
-                                    <TableCell className="text-right">$2,500.00</TableCell>
-                                </TableRow>
-                                </TableFooter>
-                            </Table>
-
-                            </div>
-                        }
+                            }
                         </div>
                     </div>
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button variant="outline" onClick={()=>setSelectedProduct('')}>Cancelar</Button>
+                            <Button variant="outline" onClick={() => setSelectedProduct('')}>Cancelar</Button>
                         </DialogClose>
                         <Button type="submit">Finalizar venda</Button>
                     </DialogFooter>
