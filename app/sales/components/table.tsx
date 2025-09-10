@@ -10,13 +10,13 @@ import {
 import { log } from "console"
 import { useEffect, useState } from "react"
 
-export default function ListSaleTable(data : any[]) {
+export default function ListSaleTable({ data }: { data: any[] }) {
 
     console.log('fataaaa vindo da outra func', data)
 
-    const [values,setValues] = useState(data.data)
+    const [values, setValues] = useState([])
 
-        const invoices = [
+    const invoices = [
         {
             invoice: "INV001",
             paymentStatus: "Paid",
@@ -40,39 +40,37 @@ export default function ListSaleTable(data : any[]) {
             paymentMethod: "PayPal",
         }]
 
-        useEffect(()=>{
-            setValues((prev)=>[...prev, data.data])
-
-            console.log('valueeeeeeeeeeeeeeeeeeeessssssssss',values)
-            console.log('data estado', data)
-        },[data])
-
     return (
         <Table className=" rounded-4xl border">
             <TableHeader>
                 <TableRow>
-                    <TableHead className="w-screen">Invoice</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Method</TableHead>
-                    <TableHead className="text-right">Amount</TableHead>
+                    <TableHead>Id</TableHead>
+                    <TableHead className="w-screen">Descrição</TableHead>
+                    <TableHead className="text-right">Quantidade</TableHead>
+                    <TableHead>Valor unitário</TableHead>
+                    <TableHead className="text-right">Total</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {values?.length && values.map((sale,index) => (
+                {data?.length && data.map((sale, index) => (
                     <TableRow key={index} onClick={() => {
                         console.log('click on :', sale)
                     }}>
+                        <TableCell className="font-medium">{sale.id}</TableCell>
                         <TableCell className="font-medium">{sale.description}</TableCell>
-                        <TableCell>{sale.value}</TableCell>
+                        <TableCell className="text-right">{sale?.quantity}1</TableCell>
+                        <TableCell itemType="currency">{sale.value}</TableCell>
                         <TableCell>{sale?.paymentMethod}</TableCell>
-                        <TableCell className="text-right">{sale?.totalAmount}</TableCell>
+                        <TableCell className="text-right">{sale?.value}</TableCell>
                     </TableRow>
                 ))}
             </TableBody>
             <TableFooter>
                 <TableRow>
-                    <TableCell colSpan={3}>Total</TableCell>
-                    <TableCell className="text-right">$2,500.00</TableCell>
+                    <TableCell colSpan={5}>Total</TableCell>
+                    <TableCell className="text-right">
+                        { data.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.value),0)}
+                    </TableCell>
                 </TableRow>
             </TableFooter>
         </Table>

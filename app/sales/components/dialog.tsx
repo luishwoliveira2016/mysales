@@ -25,9 +25,13 @@ import {
 
 import ListSaleTable from './table'
 
-import { FaPlus } from 'react-icons/fa'
-import { log } from "console"
+import { FaPlus,FaMoneyBill, FaCreditCard } from 'react-icons/fa'
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from "@/components/ui/radio-group"
 
+import Image from "next/image"
 
 export default function NewSaleDialog() {
     const products = [
@@ -45,19 +49,26 @@ export default function NewSaleDialog() {
         }
     ];
 
+    const customers = [
+        {
+            id:1,
+            name:'Johann Strauss',
+            cpf:'01234567890'
+        },
+                {
+            id:2,
+            name:'Michael Jackson',
+            cpf:'09876543210'
+        }
+    ];
 
-    const [selectedProduct, setSelectedProduct] = useState({});
-    //const [faturas, setFaturas] = useState(invoices)
 
+    const [selectedProduct, setSelectedProduct] = useState(null);
     const [data, setData] = useState([]);
 
     const handleAddProduct = (product) => {
-        console.log('dataaaaa',data)
-        console.log('producttttt',product)
         setData((prev) => [...prev, product])
     }
-
-    console.log('selectted producr', selectedProduct)
 
     return (
         <Dialog>
@@ -81,8 +92,9 @@ export default function NewSaleDialog() {
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectGroup>
-                                    <SelectItem value={"aaaa"}>Johann Strauss</SelectItem>
-                                    <SelectItem value={'bbbbb'}>Airton Senna</SelectItem>
+                                    {customers && customers.map((customer) =>(
+                                        <SelectItem value={customer.name}>{customer.name}</SelectItem>
+                                    ))}
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
@@ -123,18 +135,35 @@ export default function NewSaleDialog() {
                                         <Label>Valor unitário</Label>
                                         <Input value={selectedProduct.value} disabled className="w-24" />
                                     </div>
-
-
-                                   
-                                    <Button onClick={()=>handleAddProduct(selectedProduct)} className="bg-emerald-400 w-96"> <FaPlus/>Adicionar produto</Button>
+                                    <Button type='button' onClick={() => handleAddProduct(selectedProduct)} className="bg-emerald-400 w-96"> <FaPlus />Adicionar produto</Button>
                                     <ListSaleTable data={data} />
                                 </div>
                             }
                         </div>
                     </div>
+
+                    <Label>Método de pagamento</Label>
+                    <RadioGroup defaultValue="comfortable" className="flex">
+                        <div className="flex items-center gap-3">
+                            <Image src="/pix.png" width={30} height={30}></Image>
+                            <RadioGroupItem value="default" id="r1" />
+                            <Label htmlFor="r1">PIX</Label>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <FaCreditCard size={30}/>
+                            <RadioGroupItem value="comfortable" id="r2" />
+                            <Label htmlFor="r2">Cartão</Label>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <FaMoneyBill size={40}/>
+                            <RadioGroupItem value="compact" id="r3" />
+                            <Label htmlFor="r3">Dinheiro</Label>
+                        </div>
+                    </RadioGroup>
+                   
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button variant="outline" onClick={() => setSelectedProduct('')}>Cancelar</Button>
+                            <Button variant="outline" onClick={() => { setData([]) }}>Cancelar</Button>
                         </DialogClose>
                         <Button type="submit">Finalizar venda</Button>
                     </DialogFooter>
