@@ -58,10 +58,10 @@ export default function ListSaleTable({ data }: { data: any[] }) {
                     }}>
                         <TableCell className="font-medium">{sale.id}</TableCell>
                         <TableCell className="font-medium">{sale.description}</TableCell>
-                        <TableCell className="text-right">{sale?.quantity}1</TableCell>
+                        <TableCell className="text-right">{sale?.quantity}</TableCell>
                         <TableCell itemType="currency">{sale.value}</TableCell>
                         <TableCell>{sale?.paymentMethod}</TableCell>
-                        <TableCell className="text-right">{sale?.value}</TableCell>
+                        <TableCell className="text-right">{sale?.total}</TableCell>
                     </TableRow>
                 ))}
             </TableBody>

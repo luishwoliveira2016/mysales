@@ -1,5 +1,5 @@
 'use client'
-import { use, useState } from "react"
+import { useRef, useState } from "react"
 import {
     Dialog,
     DialogClose,
@@ -33,7 +33,12 @@ import {
 
 import Image from "next/image"
 
+
+
 export default function NewSaleDialog() {
+      const inputRef = useRef<HTMLInputElement>(null)
+
+
     const products = [
         {
             id: 1,
@@ -66,8 +71,9 @@ export default function NewSaleDialog() {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [data, setData] = useState([]);
 
-    const handleAddProduct = (product) => {
-        setData((prev) => [...prev, product])
+    const handleAddProduct = (product,quantity) => {
+        console.log('aaaaaaaaaaaa qnte', quantity)
+        setData((prev) => [...prev, {...product, quantity,total:quantity*parseFloat(product.value)}])
     }
 
     return (
@@ -129,13 +135,13 @@ export default function NewSaleDialog() {
                                         <Input value={selectedProduct.description} className="w-72" disabled />
 
                                         <Label>Quantidade</Label>
-                                        <Input type="number" defaultValue={1} className="w-12"></Input>
+                                        <Input id='amount' type="number" defaultValue={1} className="w-12" ref={inputRef}></Input>
 
 
                                         <Label>Valor unitário</Label>
                                         <Input value={selectedProduct.value} disabled className="w-24" />
                                     </div>
-                                    <Button type='button' onClick={() => handleAddProduct(selectedProduct)} className="bg-emerald-400 w-96"> <FaPlus />Adicionar produto</Button>
+                                    <Button type='button' onClick={() => handleAddProduct(selectedProduct,inputRef?.current?.value)} className="bg-emerald-400 w-96"> <FaPlus />Adicionar produto</Button>
                                     <ListSaleTable data={data} />
                                 </div>
                             }
@@ -145,7 +151,7 @@ export default function NewSaleDialog() {
                     <Label>Método de pagamento</Label>
                     <RadioGroup defaultValue="comfortable" className="flex">
                         <div className="flex items-center gap-3">
-                            <Image src="/pix.png" width={30} height={30}></Image>
+                            <Image src="/pix.png" width={30} height={30} alt=""></Image>
                             <RadioGroupItem value="default" id="r1" />
                             <Label htmlFor="r1">PIX</Label>
                         </div>
@@ -165,7 +171,7 @@ export default function NewSaleDialog() {
                         <DialogClose asChild>
                             <Button variant="outline" onClick={() => { setData([]) }}>Cancelar</Button>
                         </DialogClose>
-                        <Button type="submit">Finalizar venda</Button>
+                        <Button type="submit" onSubmit={()=> console.log('submited!')}>Finalizar venda</Button>
                     </DialogFooter>
                 </DialogContent>
             </form>
