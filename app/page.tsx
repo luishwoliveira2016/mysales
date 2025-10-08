@@ -81,8 +81,7 @@ export default function Home() {
             description='Total de vendas x total de saída mensal'
             className='w-[50%] mt-3 h-full mr-auto'
           />
-        </div>
-
+        </div>  
       </div>
     </>
 

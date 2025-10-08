@@ -2,7 +2,6 @@
 
 
 import CustomCard from "@/components/card"
-import { Button } from "@/components/ui/button"
 import {
   Table,
   TableBody,
@@ -14,11 +13,13 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import NewSaleDialog from "./components/dialog"
+import { MdAttachMoney } from "react-icons/md"
 
 const invoices = [
   {
     invoice: "INV001",
     paymentStatus: "Paid",
+    customer:"Jim Carrey",
     totalAmount: "$250.00",
     paymentMethod: "Credit Card",
   },
@@ -107,22 +108,24 @@ export default function Sales() {
   return (
     <div>
       <h1 className="font-bold font-sans">Vendas</h1>
-      <div className="flex">
-        <CustomCard className="w-[40%] h-48"
+      <div className="flex mb-8">
+        <CustomCard className="w-[40%] h-48 bg-emerald-400 mr-24"
             content='R$ 5.000,00'
             title='Vendas totais'
+            icon={<MdAttachMoney size={46} />}
           />
           <NewSaleDialog/>
       </div>
           
-          <Table className=" rounded-4xl">
+  <Table className="border border-r rounded-4xl border-separate border-spacing-0 overflow-hidden  p-6">
         <TableCaption>A list of your recent invoices.</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-screen">Invoice</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
+        <TableHeader className="bg-slate-700">
+          <TableRow >
+            <TableHead className="text-white">ID</TableHead>
+            <TableHead className="w-screen text-white">Cliente</TableHead>
+            <TableHead className="text-white">Status</TableHead>
+            <TableHead className="text-white">Método de pagamento</TableHead>
+            <TableHead className="text-right text-white">Total</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -131,6 +134,7 @@ export default function Sales() {
               console.log('click on :', invoice)
             }}>
               <TableCell className="font-medium">{invoice.invoice}</TableCell>
+              <TableCell>{invoice.customer}</TableCell>
               <TableCell>{invoice.paymentStatus}</TableCell>
               <TableCell>{invoice.paymentMethod}</TableCell>
               <TableCell className="text-right">{invoice.totalAmount}</TableCell>
@@ -139,7 +143,7 @@ export default function Sales() {
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell colSpan={3}>Total</TableCell>
+            <TableCell colSpan={4}>Total</TableCell>
             <TableCell className="text-right">$2,500.00</TableCell>
           </TableRow>
         </TableFooter>

@@ -80,7 +80,7 @@ export default function NewSaleDialog() {
         <Dialog>
             <form>
                 <DialogTrigger asChild>
-                    <Button variant="default" className="ml-auto">Nova venda</Button>
+                    <Button variant="default" className="ml-auto bg-blue-800"> + Nova venda</Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[900px]">
                     <DialogHeader>
